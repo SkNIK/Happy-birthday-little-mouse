@@ -6,21 +6,24 @@
   <style>
     body {
       margin: 0;
-      background: #000;
-      color: #fff;
+      background: #9fdf9f; /* Light green background */
       font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
+      color: black;
     }
 
     .message {
       max-width: 700px;
-      margin: 100px auto;
+      margin: 80px auto 0;
       font-size: 1.3rem;
       line-height: 2rem;
       white-space: pre-line;
       animation: typewriter 4s steps(60) 1 normal both;
-      border-right: 2px solid #fff;
+      border-right: 2px solid black;
       padding: 20px;
+      background: rgba(255,255,255,0.7);
+      border-radius: 12px;
+      box-shadow: 2px 2px 20px rgba(0,0,0,0.3);
     }
 
     @keyframes typewriter {
@@ -34,6 +37,7 @@
       font-size: 20px;
       animation: fall linear infinite;
       top: -10px;
+      z-index: 2;
     }
 
     @keyframes fall {
@@ -46,10 +50,28 @@
         opacity: 0;
       }
     }
+
+    .tree {
+      position: fixed;
+      bottom: 0;
+      left: 20px;
+      z-index: 1;
+    }
+
+    .tree img {
+      height: 200px;
+      opacity: 0.9;
+    }
   </style>
 </head>
 <body>
 
+<!-- Tree Image on Left -->
+<div class="tree">
+  <img src="https://i.imgur.com/yHDL8eA.png" alt="Tree">
+</div>
+
+<!-- Birthday Message -->
 <div class="message">
 Mere liye tu bas ek ladki nahi hai...
 Tu meri subah ki wajah hai… meri neend ka sakoon hai.
@@ -81,6 +103,7 @@ You are my whole damn book.
 YOU. ARE. MINE. Forever. No escape.
 </div>
 
+<!-- Falling Hearts Script -->
 <script>
   function createHeart() {
     const heart = document.createElement('div');
@@ -92,7 +115,7 @@ YOU. ARE. MINE. Forever. No escape.
     setTimeout(() => heart.remove(), 5000);
   }
 
-  setInterval(createHeart, 200);
+  setInterval(createHeart, 300);
 </script>
 
 </body>
