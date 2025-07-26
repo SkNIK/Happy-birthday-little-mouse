@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Happy Birthday ❤️</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
+      color: white;
+      font-family: 'Courier New', monospace;
+      overflow: hidden;
+    }
+
+    canvas {
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: -1;
+    }
+
+    .message-box {
+      position: absolute;
+      top: 10%;
+      left: 10%;
+      right: 10%;
+      font-size: 1.2rem;
+      white-space: pre-wrap;
+      animation: fadeIn 3s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    #typewriter::after {
+      content: '|';
+      animation: blink 1s infinite;
+    }
+
+    @keyframes blink {
+      0%, 50%, 100% { opacity: 1; }
+      25%, 75% { opacity: 0; }
+    }
+
+    .glow-text {
+      text-align: center;
+      margin-top: 40px;
+      font-size: 2rem;
+      color: #ff4d6d;
+      text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0% { text-shadow: 0 0 5px #ff4d6d; }
+      50% { text-shadow: 0 0 20px #ff4d6d; }
+      100% { text-shadow: 0 0 5px #ff4d6d; }
+    }
+  </style>
+</head>
+<body>
+  <canvas id="heartCanvas"></canvas>
+
+  <div class="message-box">
+    <div id="typewriter"></div>
+    <div class="glow-text">YOU. ARE. MINE.</div>
+  </div>
+
+  <script>
+    // 💌 Message
+    const message = `
+Mere liye tu bas ek ladki nahi hai...
+Tu meri subah ki wajah hai… meri neend ka sakoon hai.
+
+You’re not just mine...
+You are mine to crave, mine to protect, mine to ruin.
+
+Tera chehra dekhu to duniya ruk jaati hai...
+Teri aankhon mein doob jaun, to jeevan safar ho jaye.
+
+I don’t want peace if peace means being away from you.
+
+I want your scent on my pillow.
+I want your skin under my fingers.
+I want your moans in my ear and your name on my lips.
+
+You’re not just a dream, you’re the obsession I can’t live without.
+
+Tu sirf meri hai...
+Teri har saans, har nazar, har lamha — sirf mera hai.
+
+I’ll kiss every inch of your skin like I’m worshipping a goddess.
+I’ll whisper your name like a prayer… again… and again…
+
+Happy Birthday, my girl.
+You’re not my chapter.
+You are my whole damn book.
+`;
+
+    // ✍️ Typewriter effect
+    let i = 0;
+    const speed = 35;
+    const typewriter = document.getElementById("typewriter");
+
+    function typeWriter() {
+      if (i < message.length) {
+        typewriter.innerHTML += message.charAt(i);
+        i++;
+        setTimeout(typeWriter, speed);
+      }
+    }
+    typeWriter();
+
+    // ❤️ Falling Hearts Canvas
+    const canvas = document.getElementById('heartCanvas');
+    const ctx = canvas.getContext('2d');
+    let width, height;
+    let hearts = [];
+
+    function resize() {
+      width = canvas.width = window.innerWidth;
+      height = canvas.height = window.innerHeight;
+    }
+    window.addEventListener('resize', resize);
+    resize();
+
+    function Heart() {
+      this.x = Math.random() * width;
+      this.y = Math.random() * height;
+      this.size = Math.random() * 10 + 10;
+      this.speed = Math.random() * 1 + 0.5;
+      this.alpha = Math.random() * 0.5 + 0.5;
+      this.color = `rgba(255, 77, 109, ${this.alpha})`;
+    }
+
+    Heart.prototype.draw = function() {
+      ctx.font = `${this.size}px Arial`;
+      ctx.fillStyle = this.color;
+      ctx.fillText("❤️", this.x, this.y);
+    };
+
+    Heart.prototype.update = function() {
+      this.y += this.speed;
+      if (this.y > height) {
+        this.y = 0;
+        this.x = Math.random() * width;
+      }
+    };
+
+    function createHearts(count) {
+      hearts = [];
+      for (let i = 0; i < count; i++) {
+        hearts.push(new Heart());
+      }
+    }
+
+    function animate() {
+      ctx.clearRect(0, 0, width, height);
+      for (let heart of hearts) {
+        heart.update();
+        heart.draw();
+      }
+      requestAnimationFrame(animate);
+    }
+
+    createHearts(70);
+    animate();
+  </script>
+</body>
+</html>
