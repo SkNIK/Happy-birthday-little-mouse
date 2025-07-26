@@ -1,78 +1,56 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Happy Birthday ❤️</title>
+  <meta charset="UTF-8">
+  <title>For You 💌</title>
   <style>
     body {
       margin: 0;
-      padding: 0;
-      background: linear-gradient(to top, #0f0c29, #302b63, #24243e);
-      color: white;
-      font-family: 'Courier New', monospace;
+      background: #000;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
       overflow: hidden;
     }
 
-    canvas {
+    .message {
+      max-width: 700px;
+      margin: 100px auto;
+      font-size: 1.3rem;
+      line-height: 2rem;
+      white-space: pre-line;
+      animation: typewriter 4s steps(60) 1 normal both;
+      border-right: 2px solid #fff;
+      padding: 20px;
+    }
+
+    @keyframes typewriter {
+      from { width: 0; }
+      to { width: 100%; }
+    }
+
+    .heart {
       position: fixed;
-      top: 0;
-      left: 0;
-      z-index: -1;
+      color: red;
+      font-size: 20px;
+      animation: fall linear infinite;
+      top: -10px;
     }
 
-    .message-box {
-      position: absolute;
-      top: 10%;
-      left: 10%;
-      right: 10%;
-      font-size: 1.2rem;
-      white-space: pre-wrap;
-      animation: fadeIn 3s ease-in-out;
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; transform: translateY(20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    #typewriter::after {
-      content: '|';
-      animation: blink 1s infinite;
-    }
-
-    @keyframes blink {
-      0%, 50%, 100% { opacity: 1; }
-      25%, 75% { opacity: 0; }
-    }
-
-    .glow-text {
-      text-align: center;
-      margin-top: 40px;
-      font-size: 2rem;
-      color: #ff4d6d;
-      text-shadow: 0 0 10px #ff4d6d, 0 0 20px #ff4d6d;
-      animation: pulse 2s infinite;
-    }
-
-    @keyframes pulse {
-      0% { text-shadow: 0 0 5px #ff4d6d; }
-      50% { text-shadow: 0 0 20px #ff4d6d; }
-      100% { text-shadow: 0 0 5px #ff4d6d; }
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(100vh) rotate(360deg);
+        opacity: 0;
+      }
     }
   </style>
 </head>
 <body>
-  <canvas id="heartCanvas"></canvas>
 
-  <div class="message-box">
-    <div id="typewriter"></div>
-    <div class="glow-text">YOU. ARE. MINE.</div>
-  </div>
-
-  <script>
-    // 💌 Message
-    const message = `
+<div class="message">
 Mere liye tu bas ek ladki nahi hai...
 Tu meri subah ki wajah hai… meri neend ka sakoon hai.
 
@@ -99,76 +77,23 @@ I’ll whisper your name like a prayer… again… and again…
 Happy Birthday, my girl.
 You’re not my chapter.
 You are my whole damn book.
-`;
 
-    // ✍️ Typewriter effect
-    let i = 0;
-    const speed = 35;
-    const typewriter = document.getElementById("typewriter");
+YOU. ARE. MINE. Forever. No escape.
+</div>
 
-    function typeWriter() {
-      if (i < message.length) {
-        typewriter.innerHTML += message.charAt(i);
-        i++;
-        setTimeout(typeWriter, speed);
-      }
-    }
-    typeWriter();
+<script>
+  function createHeart() {
+    const heart = document.createElement('div');
+    heart.classList.add('heart');
+    heart.textContent = '❤️';
+    heart.style.left = Math.random() * 100 + 'vw';
+    heart.style.animationDuration = 2 + Math.random() * 3 + 's';
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 5000);
+  }
 
-    // ❤️ Falling Hearts Canvas
-    const canvas = document.getElementById('heartCanvas');
-    const ctx = canvas.getContext('2d');
-    let width, height;
-    let hearts = [];
+  setInterval(createHeart, 200);
+</script>
 
-    function resize() {
-      width = canvas.width = window.innerWidth;
-      height = canvas.height = window.innerHeight;
-    }
-    window.addEventListener('resize', resize);
-    resize();
-
-    function Heart() {
-      this.x = Math.random() * width;
-      this.y = Math.random() * height;
-      this.size = Math.random() * 10 + 10;
-      this.speed = Math.random() * 1 + 0.5;
-      this.alpha = Math.random() * 0.5 + 0.5;
-      this.color = `rgba(255, 77, 109, ${this.alpha})`;
-    }
-
-    Heart.prototype.draw = function() {
-      ctx.font = `${this.size}px Arial`;
-      ctx.fillStyle = this.color;
-      ctx.fillText("❤️", this.x, this.y);
-    };
-
-    Heart.prototype.update = function() {
-      this.y += this.speed;
-      if (this.y > height) {
-        this.y = 0;
-        this.x = Math.random() * width;
-      }
-    };
-
-    function createHearts(count) {
-      hearts = [];
-      for (let i = 0; i < count; i++) {
-        hearts.push(new Heart());
-      }
-    }
-
-    function animate() {
-      ctx.clearRect(0, 0, width, height);
-      for (let heart of hearts) {
-        heart.update();
-        heart.draw();
-      }
-      requestAnimationFrame(animate);
-    }
-
-    createHearts(70);
-    animate();
-  </script>
 </body>
 </html>
